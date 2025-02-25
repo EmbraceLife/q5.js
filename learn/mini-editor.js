@@ -6,8 +6,15 @@ class MiniEditor {
 		let container = document.createElement('div');
 		container.id = 'mie-' + scriptEl.id;
 		container.className = 'mie-container';
+		
+		// Add a wrapper div to help with the new layout
+		let contentWrapper = document.createElement('div');
+		contentWrapper.className = 'mie-content-wrapper';
+		container.appendChild(contentWrapper);
+		
 		scriptEl.insertAdjacentElement('beforebegin', container);
 		this.container = container;
+		this.contentWrapper = contentWrapper;
 		this.initialCode = scriptContent;
 
 		let attrs = scriptEl.getAttributeNames();
@@ -31,8 +38,9 @@ class MiniEditor {
 			outputEl.style.display = 'none';
 		}
 
-		this.container.append(outputEl);
-		this.container.append(editorEl);
+		// Add elements to the content wrapper instead of directly to container
+		this.contentWrapper.append(outputEl);
+		this.contentWrapper.append(editorEl);
 
 		this.outputEl = outputEl;
 		this.editorEl = editorEl;
@@ -48,6 +56,9 @@ class MiniEditor {
 
 		this.resizeEditor();
 		window.addEventListener('resize', () => this.resizeEditor());
+		
+		// Add a small delay to ensure layout is complete before final resize
+		setTimeout(() => this.resizeEditor(), 100);
 	}
 
 	async initializeEditor() {
@@ -160,9 +171,97 @@ class MiniEditor {
 	}
 
 	resizeEditor() {
-		this.editorEl.style.height = this.initialCode.split('\n').length * 22 + 'px';
+		// Set minimum height based on line count
+		const lineHeight = 22;
+		const minHeight = this.initialCode.split('\n').length * lineHeight + 'px';
+		this.editorEl.style.minHeight = minHeight;
+		
+		// Make editor take available height in the flex layout
+		this.editorEl.style.height = '100%';
+		
+		// Update Monaco editor layout
 		this.editor.layout();
 	}
 }
+
+// Add CSS for the new layout
+function addLayoutStyles() {
+	const styleEl = document.createElement('style');
+	styleEl.textContent = `
+		/* Move sidebar to left edge */
+		.sidebar {
+			position: fixed;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			width: 250px;
+			z-index: 100;
+			overflow-y: auto;
+		}
+		
+		/* Adjust main content area */
+		.main-content {
+			margin-left: 250px;
+			width: calc(100% - 250px);
+		}
+		
+		/* Style for the mini-editor container */
+		.mie-container {
+			width: 100%;
+			margin: 20px 0;
+		}
+		
+		/* New wrapper for content */
+		.mie-content-wrapper {
+			display: flex;
+			flex-direction: row;
+			width: 100%;
+			min-height: 300px;
+		}
+		
+		/* Output/canvas area takes 50% of space */
+		.mie-output {
+			flex: 1;
+			min-width: 50%;
+			border-right: 1px solid #444;
+		}
+		
+		/* Code editor takes 50% of space */
+		.mie-code {
+			flex: 1;
+			min-width: 50%;
+		}
+		
+		/* Responsive adjustments for small screens */
+		@media (max-width: 768px) {
+			.sidebar {
+				width: 200px;
+			}
+			
+			.main-content {
+				margin-left: 200px;
+				width: calc(100% - 200px);
+			}
+			
+			.mie-content-wrapper {
+				flex-direction: column;
+			}
+			
+			.mie-output, .mie-code {
+				width: 100%;
+				min-width: 100%;
+			}
+			
+			.mie-output {
+				border-right: none;
+				border-bottom: 1px solid #444;
+			}
+		}
+	`;
+	document.head.appendChild(styleEl);
+}
+
+// Call this function when the script loads
+window.addEventListener('DOMContentLoaded', addLayoutStyles);
 
 window.MiniEditor = MiniEditor;

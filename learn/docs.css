@@ -355,20 +355,26 @@ header {
 }
 
 .mie-container {
-	display: flex;
-	align-items: center;
-	margin: 24px 32px;
-	background-color: var(--token-default-bg);
+	width: 100%;
+	margin: 20px 0;
 }
 
-.mie-code {
-	width: calc(100% - 192px);
-	border-left: 2px solid var(--borderColor);
-	margin-left: 6px;
+.mie-content-wrapper {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	min-height: 300px;
 }
 
 .mie-output {
-	width: 200px;
+	flex: 1;
+	min-width: 50%;
+	border-right: 1px solid #444;
+}
+
+.mie-code {
+	flex: 1;
+	min-width: 50%;
 }
 
 #themeToggle {
@@ -477,12 +483,8 @@ header {
 }
 
 .allContent {
-	display: flex;
-	justify-content: center;
-	width: 1000px;
-	max-width: 100%;
-	position: absolute;
-	top: 66px;
+	margin-left: 0;
+	padding-left: 0;
 }
 
 #toggleNavButton {
@@ -535,17 +537,14 @@ header {
 }
 
 #navbar {
-	position: sticky;
-	width: 220px;
-	top: 66px;
-	padding-top: 16px;
-	padding-bottom: 200px;
-	max-height: calc(100vh - 200px);
-	overflow-y: scroll;
-	background-color: var(--backGround);
-	scrollbar-width: thin;
-	scrollbar-color: var(--hover) var(--backGround);
-	border-right: 2px solid var(--borderColor);
+	position: fixed;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 250px;
+	z-index: 100;
+	overflow-y: auto;
+	margin-top: 60px;
 }
 
 #navbar::-webkit-scrollbar {
@@ -553,9 +552,10 @@ header {
 }
 
 #content {
+	margin-left: 250px;
+	width: calc(100% - 250px);
+	padding-left: 20px;
 	background-color: var(--backGround);
-	width: 100%;
-	max-width: 780px;
 }
 
 #content.fade-out {
@@ -1180,6 +1180,15 @@ pre[class*="language-"] code {
 	.params {
 		max-width: 200px;
 	}
+
+	#navbar.navclose {
+		left: -250px;
+	}
+
+	#content {
+		margin-left: 0;
+		width: 100%;
+	}
 }
 
 @media (max-width: 550px) {
@@ -1228,5 +1237,30 @@ pre[class*="language-"] code {
 	ul ul {
 		margin: 8px 0;
 		padding-left: 8px;
+	}
+}
+
+@media (max-width: 768px) {
+	#navbar {
+		width: 200px;
+	}
+	
+	#content {
+		margin-left: 200px;
+		width: calc(100% - 200px);
+	}
+	
+	.mie-content-wrapper {
+		flex-direction: column;
+	}
+	
+	.mie-output, .mie-code {
+		width: 100%;
+		min-width: 100%;
+	}
+	
+	.mie-output {
+		border-right: none;
+		border-bottom: 1px solid #444;
 	}
 }
