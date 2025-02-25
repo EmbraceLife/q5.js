@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nature of Code - Interactive Examples</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="dark">
+    <header>
+        <div class="header-container">
+            <button id="toggleNavButton"></button>
+            <button id="homeButton">
+                <span>Nature of Code</span>
+            </button>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search examples...">
+                <div id="searchResultsContainer"></div>
+            </div>
+            <button id="themeToggle"></button>
+        </div>
+    </header>
+    <div class="allContent">
+        <nav id="navbar" class="navopen"></nav>
+        <main id="content" class="fade-in"></main>
+    </div>
+
+    <!-- Load the Q5.js library -->
+    <script src="https://q5js.org/q5.js"></script>
+    
+    <!-- Load Monaco Editor -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.52.0/min/vs/loader.min.js"></script>
+    
+    <!-- Load our custom code -->
+    <script src="mini-editor.js"></script>
+    <script src="examples.js"></script>
+    <script src="docs.js"></script>
+</body>
+</html> 

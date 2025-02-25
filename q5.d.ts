@@ -3512,6 +3512,69 @@ q.draw = () => {
 };
 	 */
 	function createTextShader(code: string): GPUShaderModule;
+
+    // ⚡️ Nature of Code
+	/** 🚶 Random Walker
+	 * 
+	 * A random walker is a fundamental concept in generative art and 
+	 * computational simulations of natural phenomena. It represents an
+	 * entity that takes steps in random directions, creating emergent
+	 * patterns over time.
+	 * 
+	 * Key implementation details:
+	 * 
+	 * 1. Position tracking - Store x,y coordinates of the walker
+	 * 2. Random movement - Use random() to determine step direction
+	 * 3. Visualization - Draw points or shapes at each position
+	 * 4. Boundaries - Optionally constrain movement to canvas edges
+	 * 
+	 * Random walkers can model various natural processes like Brownian motion,
+	 * diffusion, and can be extended with biased probabilities to simulate
+	 * more complex behaviors.
+	 * 
+	 * @example
+// Basic random walker implementation
+class Walker {
+  constructor() {
+    this.x = width / 2;
+    this.y = height / 2;
+  }
+  
+  step() {
+    // Random direction with equal probability
+    let choice = floor(random(4));
+    
+    if (choice === 0) this.x++; // right
+    else if (choice === 1) this.x--; // left
+    else if (choice === 2) this.y++; // down
+    else this.y--; // up
+    
+    // Optional: constrain to canvas
+    this.x = constrain(this.x, 0, width);
+    this.y = constrain(this.y, 0, height);
+  }
+  
+  display() {
+    stroke(0);
+    point(this.x, this.y);
+  }
+}
+
+let walker;
+
+function setup() {
+  createCanvas(400, 400);
+  background(220);
+  walker = new Walker();
+}
+
+function draw() {
+  walker.step();
+  walker.display();
+}
+	 */
+	function randomWalkerDemo(): void;
+    
 }
 
 export {};
